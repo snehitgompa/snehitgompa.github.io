@@ -3,176 +3,742 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snehit Gompa - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Snehit Gompa | Software Engineer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+
+        #neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 0;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ff0000, #ff4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #e0e0e0;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links a:hover {
+            color: #ff0000;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            position: relative;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            padding: 8px 16px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 20px;
+            color: #ff0000;
+            font-size: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 24px;
+            color: #a0a0a0;
+            margin-bottom: 30px;
+        }
+
+        .hero-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 14px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #e0e0e0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 0, 0, 0.3);
+            transform: translateY(-5px);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #ff0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category h3 {
+            color: #ff0000;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-tag {
+            padding: 8px 16px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 20px;
+            font-size: 12px;
+            color: #e0e0e0;
+        }
+
+        /* Experience Timeline */
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: #ff0000;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 12px;
+            width: 2px;
+            height: calc(100% + 28px);
+            background: linear-gradient(180deg, rgba(255, 0, 0, 0.3), transparent);
+        }
+
+        .timeline-item:last-child::after {
+            display: none;
+        }
+
+        .timeline-date {
+            color: #ff0000;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 5px;
+        }
+
+        .timeline-company {
+            color: #a0a0a0;
+            margin-bottom: 15px;
+        }
+
+        .timeline-description {
+            color: #b0b0b0;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+
+        .project-card h3 {
+            font-size: 22px;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .project-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.3);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .contact-info h4 {
+            color: #ffffff;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+        .contact-info p {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .contact-info a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .cert-card {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .cert-badge {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #ff0000, #cc0000);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .cert-card h4 {
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #6b6b6b;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+            .hero-subtitle {
+                font-size: 18px;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
+    <canvas id="neural-canvas"></canvas>
+
     <nav>
-        <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#projects-experience">Projects & Experience</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#interests">Interests</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+        <div class="container">
+            <div class="logo">SG</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
     </nav>
 
-    <!-- Introduction -->
-    <section id="home" class="fade-in">
-        <div class="intro-container">
-            <img src="https://snehithganesh.neocities.org/WhatsApp%20Image%202025-01-13%20at%2019.25.15.jpeg" alt="Snehit Gompa" class="profile-pic"> <!-- Neocities URL -->
-            <div class="intro-text">
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-tag">SOFTWARE ENGINEER • AI SYSTEMS</div>
                 <h1>Snehit Gompa</h1>
-                <p class="tagline">Innovating the Future of Tech & Healthcare</p>
-                <p>I’m a Master’s student in Informatics at Northeastern University, diving deep into software development, cloud computing, and AI-driven healthcare solutions. With hands-on experience at Salesforce and a knack for crafting scalable applications using Python, AWS, and SQL, I’m on a mission to solve real-world challenges with cutting-edge tech. Let’s build something extraordinary together!</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Projects & Experience -->
-    <section id="projects-experience" class="fade-in">
-        <h2>Projects & Experience</h2>
-        <div class="accordion">
-            <div class="accordion-item">
-                <button class="accordion-button">Software Development Intern, Salesforce (Jul 2022)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Engineered CRM features to optimize performance and user experience for enterprise clients.</p>
-                    <p><strong>Role & Contributions:</strong> Built features with Apex and Visualforce, implemented Lightning Web Components (LWC), and collaborated on custom solutions.</p>
-                    <p><strong>Technologies:</strong> Apex, Visualforce, LWC, Salesforce Platform</p>
-                    <p><strong>Outcome:</strong> Boosted front-end performance by 15%, team productivity by 25%, and user satisfaction by 10%.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">FinManage: Financial Management Website (Jan 2025)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Created a responsive website to track expenses and manage financial settings, hosted at <a href="https://snehitgompa.github.io/finmanage/" target="_blank">snehitgompa.github.io/finmanage/</a>.</p>
-                    <p><strong>Role & Contributions:</strong> Led front-end development with a focus on intuitive navigation and modern design.</p>
-                    <p><strong>Technologies:</strong> HTML, CSS</p>
-                    <p><strong>Outcome:</strong> Enhanced financial tracking accessibility with a user-friendly interface.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Personalized Risk Prediction for Chronic Diseases</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Developed predictive models using the NHANES dataset to identify individuals at high risk for chronic diseases like diabetes and hypertension, enhancing early detection and personalized care.</p>
-                    <p><strong>Role & Contributions:</strong> Focused on data mining, preprocessing, and building machine learning models with Python (Scikit-learn, TensorFlow), ensuring HIPAA compliance.</p>
-                    <p><strong>Technologies:</strong> Python, Pandas, Scikit-learn, TensorFlow, Matplotlib</p>
-                    <p><strong>Outcome:</strong> Transformed raw data into actionable insights, improving model accuracy through iterative refinement.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Cloud Solution for Medical Data Management (Jun 2024)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Designed an AWS-based architecture for secure, scalable medical data management, addressing scalability, security, and global accessibility.</p>
-                    <p><strong>Role & Contributions:</strong> Co-developed the solution using EC2 Auto Scaling, S3, and CloudFront, integrating CloudWatch and CloudTrail for monitoring and compliance.</p>
-                    <p><strong>Technologies:</strong> AWS (EC2, S3, RDS, CloudFront, CloudFormation), CloudWatch, CloudTrail</p>
-                    <p><strong>Outcome:</strong> Reduced latency and enhanced data integrity, setting a new standard for healthcare data platforms.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Digital Transformation of Nail Salon (Oct 2023)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Built a web application for Couture Nails & Spa to modernize appointment booking, replacing paper-based processes with digital efficiency.</p>
-                    <p><strong>Role & Contributions:</strong> Developed the backend using Firebase Realtime Database and Authentication, integrating push notifications via Firebase Cloud Messaging.</p>
-                    <p><strong>Technologies:</strong> JavaScript, React Native, Firebase (Realtime Database, Authentication, Cloud Messaging), Google Forms</p>
-                    <p><strong>Outcome:</strong> Increased booking efficiency and customer reach, reducing paper waste and scheduling errors.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Pokémon Go Themed Game (Jul 2021)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Designed an AR/VR game with interactive characters, inspired by Pokémon Go.</p>
-                    <p><strong>Role & Contributions:</strong> Led development in Unity, enhancing user engagement through immersive features.</p>
-                    <p><strong>Technologies:</strong> Unity, C#</p>
-                    <p><strong>Outcome:</strong> Increased engagement by 20%, mastering AR/VR development.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Soil Moisture Detector App (Jun 2020)</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Developed a cloud-based app for real-time soil moisture monitoring to optimize agricultural efficiency.</p>
-                    <p><strong>Role & Contributions:</strong> Integrated data visualization and enabled remote notifications.</p>
-                    <p><strong>Technologies:</strong> Python, HTML/CSS, Arduino IDE</p>
-                    <p><strong>Outcome:</strong> Improved watering efficiency by 40%, advancing IoT skills.</p>
-                </div>
-            </div>
-            <div class="accordion-item">
-                <button class="accordion-button">Fitness Tracker Service Database Analysis</button>
-                <div class="accordion-content">
-                    <p><strong>Description:</strong> Created a database system for a fitness tracker service to monitor workouts, nutrition, sleep, and goals under a freemium model.</p>
-                    <p><strong>Role & Contributions:</strong> Designed entity-relationship models and SQL queries (e.g., average weight by workout type), ensuring data security and scalability.</p>
-                    <p><strong>Technologies:</strong> MySQL, SQL, ER Diagrams</p>
-                    <p><strong>Outcome:</strong> Delivered a robust schema supporting user-centric health tracking and analytics.</p>
+                <p class="hero-subtitle">Building Scalable Cloud Solutions & AI-Driven Systems</p>
+                <p class="hero-description">
+                    Software engineer specializing in backend development, cloud architecture, and AI system integrations. 
+                    Experienced in Python, TypeScript, AWS, and delivering production-grade applications across distributed environments.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                    <a href="#projects" class="btn btn-secondary">View Projects</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Skills -->
-    <section id="skills" class="fade-in">
-        <h2>Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-card">Python</div>
-            <div class="skill-card">SQL</div>
-            <div class="skill-card">Java</div>
-            <div class="skill-card">C/C++</div>
-            <div class="skill-card">HTML/CSS</div>
-            <div class="skill-card">C#</div>
-            <div class="skill-card">AWS</div>
-            <div class="skill-card">MySQL</div>
-            <div class="skill-card">SQLite</div>
-            <div class="skill-card">MATLAB</div>
-            <div class="skill-card">Apex</div>
-            <div class="skill-card">Visualforce</div>
-            <div class="skill-card">LWC</div>
-            <div class="skill-card">Unity</div>
-            <div class="skill-card">Excel</div>
-        </div>
-    </section>
+    <section id="experience">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            
+            <div class="timeline-item">
+                <div class="timeline-date">Nov 2025 – Present</div>
+                <div class="timeline-title">Software Developer (AI Systems Intern)</div>
+                <div class="timeline-company">OWOW Talents Inc | USA</div>
+                <div class="timeline-description">
+                    Developed backend data-processing workflows using Python, SQL, and REST services, reducing processing errors by 25%. 
+                    Implemented feature-level logic for AI-driven applications and optimized system workflows, reducing onboarding time by 30%.
+                </div>
+            </div>
 
-    <!-- Interests -->
-    <section id="interests" class="fade-in">
-        <h2>Interests</h2>
-        <div class="interests-container">
-            <div class="interest-item">
-                <p> A passionate sports enthusiast focused on basketball, enjoying both playing and strategizing team games to build camaraderie and resilience. Also, Keen interest in exploring innovative technologies, particularly in cloud computing and AR/VR, through personal projects and continuous learning.</p>
+            <div class="timeline-item">
+                <div class="timeline-date">Sep 2025 – Nov 2025</div>
+                <div class="timeline-title">Software Engineer</div>
+                <div class="timeline-company">FeatureboxAI | USA</div>
+                <div class="timeline-description">
+                    Designed and developed a production web application with JavaScript and REST API integrations. 
+                    Implemented frontend-to-backend workflows using React, improving UI responsiveness by 20%.
+                </div>
+            </div>
+
+            <div class="timeline-item">
+                <div class="timeline-date">Jul 2022 – Dec 2022</div>
+                <div class="timeline-title">Software Developer</div>
+                <div class="timeline-company">Salesforce Developer Virtual Internship | India</div>
+                <div class="timeline-description">
+                    Developed business logic using Salesforce Apex, LWC, and REST APIs. 
+                    Automated business processes using Flow Builder, improving workflow efficiency.
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Education -->
-    <section id="education" class="fade-in">
-        <h2>Education</h2>
-        <div class="education-item">
-            <h3>Master of Science in Informatics</h3>
-            <p>Northeastern University, Boston, MA | Sep 2025 – Present | GPA: 3.7</p>
-            <p><strong>Relevant Coursework:</strong> Database Management, Cloud Computing, IT Strategy</p>
-        </div>
-        <div class="education-item">
-            <h3>Bachelor of Technology in Electronics and Communications</h3>
-            <p>MVGR College of Engineering, India | Jun 2019 – Mar 2023 | GPA: 3.7</p>
-        </div>
-        <div class="education-item">
-            <h3>Certifications</h3>
-            <p>NPTEL in Cloud Computing (Oct 2022)<br>PCAP: Programming Essentials in Python (Jul 2022)<br>Augmented Reality & Virtual Reality Certification (Jul 2021)</p>
+    <section id="skills">
+        <div class="container">
+            <h2 class="section-title">Technical Arsenal</h2>
+            <div class="skills-grid">
+                <div class="glass-card skill-category">
+                    <h3>Languages & Core</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">SQL</span>
+                        <span class="skill-tag">C++</span>
+                    </div>
+                </div>
+
+                <div class="glass-card skill-category">
+                    <h3>Cloud & DevOps</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">AWS</span>
+                        <span class="skill-tag">EC2</span>
+                        <span class="skill-tag">S3</span>
+                        <span class="skill-tag">Lambda</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Kubernetes</span>
+                    </div>
+                </div>
+
+                <div class="glass-card skill-category">
+                    <h3>Backend & APIs</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">REST APIs</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Salesforce Apex</span>
+                        <span class="skill-tag">JSON</span>
+                        <span class="skill-tag">LWC</span>
+                    </div>
+                </div>
+
+                <div class="glass-card skill-category">
+                    <h3>Tools & Methodologies</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">CI/CD</span>
+                        <span class="skill-tag">Agile</span>
+                        <span class="skill-tag">Scrum</span>
+                        <span class="skill-tag">SDLC</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="fade-in">
-        <h2>Contact</h2>
-        <p><strong>Email:</strong> <a href="mailto:ganeshgsgv@gmail.com">ganeshgsgv@gmail.com</a></p>
-        <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/snehith-ganesh-491314123" target="_blank">linkedin.com/in/snehith-ganesh-491314123</a></p>
+    <section id="projects">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="glass-card project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3>AI Workforce Analytics Dashboard</h3>
+                            <p class="timeline-date">Jan 2025 • Capstone Project</p>
+                        </div>
+                        <div class="project-icon">⚡</div>
+                    </div>
+                    <p class="timeline-description">
+                        Built multi-user analytics web application with role-based access and real-time data visualization. 
+                        Owned frontend components and REST API integrations, reducing user-reported errors by 30%.
+                    </p>
+                </div>
+
+                <div class="glass-card project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3>Production Analytics Platform</h3>
+                            <p class="timeline-date">Sep 2025 • FeatureboxAI</p>
+                        </div>
+                        <div class="project-icon">📊</div>
+                    </div>
+                    <p class="timeline-description">
+                        Designed scalable analytics platform with JavaScript and backend API integrations. 
+                        Implemented dynamic dashboards with real-time data visualization capabilities.
+                    </p>
+                </div>
+
+                <div class="glass-card project-card">
+                    <div class="project-header">
+                        <div>
+                            <h3>Salesforce Automation Suite</h3>
+                            <p class="timeline-date">Jul 2022 - Dec 2022</p>
+                        </div>
+                        <div class="project-icon">🔄</div>
+                    </div>
+                    <p class="timeline-description">
+                        Developed business automation workflows using Apex, LWC, and Flow Builder. 
+                        Implemented comprehensive testing framework reducing regression issues.
+                    </p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- Footer -->
+    <section id="certifications">
+        <div class="container">
+            <h2 class="section-title">Certifications</h2>
+            <div class="cert-grid">
+                <div class="glass-card cert-card">
+                    <div class="cert-badge">☁️</div>
+                    <h4>AWS Solutions Architect</h4>
+                    <p style="color: #a0a0a0; font-size: 14px;">Associate Level</p>
+                </div>
+                <div class="glass-card cert-card">
+                    <div class="cert-badge">🌩️</div>
+                    <h4>AWS Cloud Practitioner</h4>
+                    <p style="color: #a0a0a0; font-size: 14px;">Foundational</p>
+                </div>
+                <div class="glass-card cert-card">
+                    <div class="cert-badge">🐍</div>
+                    <h4>PCAP Python Essentials</h4>
+                    <p style="color: #a0a0a0; font-size: 14px;">Programming</p>
+                </div>
+                <div class="glass-card cert-card">
+                    <div class="cert-badge">📚</div>
+                    <h4>NPTEL Cloud Computing</h4>
+                    <p style="color: #a0a0a0; font-size: 14px;">Advanced</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Connect</h2>
+            <div class="contact-grid">
+                <div class="glass-card contact-item">
+                    <div class="contact-icon">📧</div>
+                    <div class="contact-info">
+                        <h4>Email</h4>
+                        <p><a href="mailto:gompasnehit@gmail.com">gompasnehit@gmail.com</a></p>
+                    </div>
+                </div>
+                <div class="glass-card contact-item">
+                    <div class="contact-icon">📱</div>
+                    <div class="contact-info">
+                        <h4>Phone</h4>
+                        <p>+1 (945) 328-8376</p>
+                    </div>
+                </div>
+                <div class="glass-card contact-item">
+                    <div class="contact-icon">📍</div>
+                    <div class="contact-info">
+                        <h4>Location</h4>
+                        <p>Oakland, CA, USA</p>
+                    </div>
+                </div>
+                <div class="glass-card contact-item">
+                    <div class="contact-icon">💼</div>
+                    <div class="contact-info">
+                        <h4>LinkedIn</h4>
+                        <p><a href="#" target="_blank">Connect with me</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer>
-        <p>© 2025 Snehit Gompa. All Rights Reserved.</p>
+        <div class="container">
+            <p>© 2026 Snehit Gompa. Built with cutting-edge web technologies.</p>
+        </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        const canvas = document.getElementById('neural-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        class Node {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                ctx.fill();
+            }
+        }
+
+        const nodes = [];
+        const nodeCount = 80;
+
+        for (let i = 0; i < nodeCount; i++) {
+            nodes.push(new Node(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+            ));
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            nodes.forEach(node => {
+                node.update();
+                node.draw();
+            });
+
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(nodes[i].x, nodes[i].y);
+                        ctx.lineTo(nodes[j].x, nodes[j].y);
+                        ctx.strokeStyle = `rgba(255, 0, 0, ${0.15 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
